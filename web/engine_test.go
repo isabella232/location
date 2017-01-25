@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/gin-gonic/gin"
 	. "github.com/thoughtbot/location/web"
 	"github.com/thoughtbot/location/web/webfakes"
 	"github.com/totherme/nosj"
+	gin "gopkg.in/gin-gonic/gin.v1"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -16,21 +16,21 @@ import (
 )
 
 var _ = Describe("Web engine", func() {
+	var (
+		fakeOfficeLocator *webfakes.FakeOfficeLocatorInterface
+		request           *http.Request
+		recorder          *httptest.ResponseRecorder
+		engine            *gin.Engine
+	)
+
+	BeforeEach(func() {
+		fakeOfficeLocator = &webfakes.FakeOfficeLocatorInterface{}
+		request, _ = http.NewRequest("GET", "/v1/nearest", nil)
+		recorder = httptest.NewRecorder()
+		engine = GetMainEngine(fakeOfficeLocator)
+	})
+
 	Describe("/v1/nearest", func() {
-		var (
-			fakeOfficeLocator *webfakes.FakeOfficeLocatorInterface
-			request           *http.Request
-			recorder          *httptest.ResponseRecorder
-			engine            *gin.Engine
-		)
-
-		BeforeEach(func() {
-			fakeOfficeLocator = &webfakes.FakeOfficeLocatorInterface{}
-			request, _ = http.NewRequest("GET", "/v1/nearest", nil)
-			recorder = httptest.NewRecorder()
-			engine = GetMainEngine(fakeOfficeLocator)
-		})
-
 		It("returns the nearest thoughtbot office", func() {
 			fakeOfficeLocator.NearestReturns("outer-mongolia", nil)
 
@@ -70,6 +70,24 @@ var _ = Describe("Web engine", func() {
 				Expect(errorNode).To(BeAString())
 				Expect(errorNode.StringValue()).To(Equal(expectedError.Error()))
 			})
+		})
+	})
+
+	Describe("CORS configuration", func() {
+		It("allows origins from the whitelist", func() {
+			request.Header.Set("Origin", "http://allowed.example.com")
+			engine.ServeHTTP(recorder, request)
+
+			origin := recorder.Result().Header.Get("Access-Control-Allow-Origin")
+			Expect(origin).To(Equal("http://allowed.example.com"))
+		})
+
+		It("does not allow other origins", func() {
+			request.Header.Set("Origin", "http://not-thoughtbot.example.com")
+			engine.ServeHTTP(recorder, request)
+
+			origin := recorder.Result().Header.Get("Access-Control-Allow-Origin")
+			Expect(origin).To(BeEmpty())
 		})
 	})
 })

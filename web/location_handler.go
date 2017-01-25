@@ -3,7 +3,7 @@ package web
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 //go:generate counterfeiter . officeLocatorInterface

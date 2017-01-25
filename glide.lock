@@ -1,6 +1,8 @@
-hash: 50dac739eeb8c575cc7a5bca52d54138d9c2464d559932e1e0fd54bd10d924fd
-updated: 2017-01-24T15:57:28.465067987Z
+hash: 21d8037fec23ff66a470bd9a7457bef13ee37c46814a39df755073ad3ca8520c
+updated: 2017-01-25T12:09:14.839532594Z
 imports:
+- name: github.com/gin-contrib/cors
+  version: da1a40b05afa495152b4cd508325ccd2b91df28c
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
@@ -27,11 +29,15 @@ imports:
   subpackages:
   - unix
   - windows
+- name: gopkg.in/gin-gonic/gin.v1
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:
+- name: github.com/joho/godotenv
+  version: 726cc8b906e3d31c70a9671c90a13716a8d3f50d
 - name: github.com/onsi/ginkgo
   version: a23f924ce96d61f963fb6219b8ff069d8d768cc2
   subpackages:
