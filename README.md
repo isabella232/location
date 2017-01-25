@@ -1,0 +1,22 @@
+# Location
+
+Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://thoughtbot-location.herokuapp.com/v1/nearest)
+
+## Endpoints
+
+- `/v1/nearest` returns the slug of the nearest thoughtbot office based on your IP
+
+## Developing
+
+- You need to have [Go](https://golang.org/) setup on your machine
+- Set your `$GOPATH` to a value such as: `~/workspace/go`
+- Clone the repo within: `$GOPATH/src/github.com/thoughtbot/location`
+- Run `bin/setup` to install dependencies
+- Run `bin/test` to run tests
+- Run `bin/run` to run the service locally
+
+### Resources
+
+Finding the nearest city to the user (based on the user's IP address) uses the
+free [GeoLite2 City database](http://dev.maxmind.com/geoip/geoip2/geolite2/).
+This data is updated monthly.
