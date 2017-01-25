@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+set -e
+
+command_present() {
+  if command -v "$1" > /dev/null; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+install_go() {
+  echo "Go is not installed."
+  if command_present "brew"; then
+    echo "Please install Go: 'brew install go' and re-run setup"
+  else
+    echo "Please install Go: https://golang.org/doc/install and re-run setup"
+  fi
+  exit 1
+}
+
+check_go_path_set() {
+  if [ -z "$GOPATH" ]; then
+    echo "Please configure your \$GOPATH and re-run setup"
+    exit 1
+  fi
+}
+
+install_glide() {
+  echo "Glide is not installed."
+  if command_present "brew"; then
+    brew install "glide"
+  else
+    echo "Please install glide: https://github.com/Masterminds/glide#install"
+  fi
+}
+
+install_test_tooling() {
+  echo "Installing Ginkgo, Gomega & Counterfeiter..."
+  go get github.com/onsi/ginkgo/ginkgo
+  go get github.com/onsi/gomega
+  go get github.com/maxbrunsfeld/counterfeiter
+
+  if ! command_present "ginkgo"; then
+    echo "Could not find installed ginkgo executable."
+    echo "Is \$GOPATH/bin on your path?"
+    exit 1
+  fi
+}
+
+
+command_present "go" || install_go
+check_go_path_set
+command_present "glide" || install_glide
+glide install
+install_test_tooling

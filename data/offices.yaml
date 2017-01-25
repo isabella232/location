@@ -1,0 +1,27 @@
+- slug: "austin"
+  lat: 30.268592
+  long: -97.743192
+
+- slug: "boston"
+  lat: 42.356125
+  long: -71.061613
+
+- slug: "london"
+  lat:  51.519741
+  long: -0.099063
+
+- slug: "new-york"
+  lat: 40.752547
+  long: -73.987005
+
+- slug: "raleigh"
+  lat: 35.773400
+  long: -78.639251
+
+- slug: "san-francisco"
+  lat: 37.788266
+  long: -122.399863
+
+- slug: "washington-d-c"
+  lat: 38.899096
+  long: -77.022269

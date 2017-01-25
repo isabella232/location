@@ -1,0 +1,11 @@
+package: github.com/thoughtbot/location
+import:
+- package: github.com/gin-gonic/gin
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+- package: github.com/manucorporat/sse
+- package: github.com/oschwald/geoip2-golang
+testImport:
+- package: github.com/totherme/nosj
+- package: github.com/xeipuuv/gojsonpointer
