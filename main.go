@@ -12,14 +12,14 @@ import (
 func main() {
 	db, err := geoip2.Open("data/GeoLite2-City.mmdb")
 	if err != nil {
-		fmt.Printf("Unable to read GeoLite DB")
+		fmt.Println("Unable to read GeoLite DB")
 		os.Exit(1)
 	}
 	defer db.Close()
 
 	offices, err := locator.OfficeRepo{}.LoadOffices("data/offices.yaml")
 	if err != nil {
-		fmt.Printf("Unable to read offices YAML")
+		fmt.Println("Unable to read offices YAML")
 		os.Exit(1)
 	}
 
@@ -27,5 +27,11 @@ func main() {
 		IPResolver: locator.IpResolver{DB: db},
 		Offices:    offices,
 	}
-	web.GetMainEngine(ol).Run(":8080")
+
+	port := os.Getenv("PORT")
+	if len(port) == 0 {
+		fmt.Println("Please specify $PORT")
+		os.Exit(1)
+	}
+	web.GetMainEngine(ol).Run(":" + port)
 }
