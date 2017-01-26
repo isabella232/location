@@ -1,5 +1,7 @@
 # Location
 
+[![Build Status](https://travis-ci.com/thoughtbot/location.svg?token=47cp3CiWHmDqjYJKGejt&branch=master)](https://travis-ci.com/thoughtbot/location)
+
 Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://thoughtbot-location.herokuapp.com/v1/nearest)
 
 ## Endpoints
@@ -8,7 +10,7 @@ Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://tho
 
 ## Developing
 
-- You need to have [Go](https://golang.org/) setup on your machine
+- You need to have [Go](https://golang.org/) 1.7+ setup on your machine
 - Set your `$GOPATH` to a value such as: `~/workspace/go`
 - Clone the repo within: `$GOPATH/src/github.com/thoughtbot/location`
 - Run `bin/setup` to install dependencies
