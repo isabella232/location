@@ -1,0 +1,17 @@
+language: go
+go:
+  - 1.6
+  - 1.7
+
+addons:
+  apt:
+    sources:
+    - sourceline: 'ppa:masterminds/glide'
+    packages:
+    - glide
+
+install:
+  - mkdir $GOPATH/bin
+  - ./bin/setup
+
+script: ./bin/test
