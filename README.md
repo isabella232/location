@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/thoughtbot/location.svg?token=47cp3CiWHmDqjYJKGejt&branch=master)](https://travis-ci.com/thoughtbot/location)
 
-Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://thoughtbot-location.herokuapp.com/v1/nearest)
+Live service: [https://location.thoughtbot.com/v1/nearest](https://location.thoughtbot.com/v1/nearest)
 
 ## Endpoints
 
