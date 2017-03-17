@@ -36,11 +36,12 @@ install_glide() {
   fi
 }
 
-install_test_tooling() {
-  echo "Installing Ginkgo, Gomega & Counterfeiter..."
-  go get github.com/onsi/ginkgo/ginkgo
-  go get github.com/onsi/gomega
-  go get github.com/maxbrunsfeld/counterfeiter
+install_tooling() {
+  echo "Installing Ginkgo, Gomega, Counterfeiter, & Forego..."
+  go get -u github.com/onsi/ginkgo/ginkgo
+  go get -u github.com/onsi/gomega
+  go get -u github.com/maxbrunsfeld/counterfeiter
+  go get -u github.com/ddollar/forego
 
   if ! command_present "ginkgo"; then
     echo "Could not find installed ginkgo executable."
@@ -49,9 +50,12 @@ install_test_tooling() {
   fi
 }
 
-
 command_present "go" || install_go
 check_go_path_set
 command_present "glide" || install_glide
 glide install
-install_test_tooling
+install_tooling
+if [ ! -f ".env" ]; then
+  echo "Setting up .env file"
+  cp ".env.example" ".env"
+fi

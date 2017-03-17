@@ -1,2 +1,4 @@
 /vendor
 *.coverprofile
+.env
+location
