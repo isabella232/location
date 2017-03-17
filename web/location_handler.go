@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/thoughtbot/location/locator"
 
@@ -14,7 +15,8 @@ type officeLocatorInterface interface {
 }
 
 type locationHandler struct {
-	locator officeLocatorInterface
+	locator       officeLocatorInterface
+	thoughtbotURL url.URL
 }
 
 func (h *locationHandler) handleNearest(c *gin.Context) {
@@ -26,9 +28,12 @@ func (h *locationHandler) handleNearest(c *gin.Context) {
 		return
 	}
 
+	officeURL := o.URL(h.thoughtbotURL)
+
 	c.JSON(http.StatusOK, gin.H{
 		"slug": o.Slug,
 		"name": o.Name,
+		"url":  officeURL.String(),
 		"meta": gin.H{
 			"distanceKmToUser": distanceKm,
 		},

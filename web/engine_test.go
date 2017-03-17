@@ -70,6 +70,10 @@ var _ = Describe("Web engine", func() {
 			Expect(name).To(BeAString())
 			Expect(name.StringValue()).To(Equal("Outer Mongolia"))
 
+			officeURL, _ := j.GetByPointer("/url")
+			Expect(officeURL).To(BeAString())
+			Expect(officeURL.StringValue()).To(Equal("https://thoughtbot.com/outer-mongolia"))
+
 			distanceKmToUser, _ := j.GetByPointer("/meta/distanceKmToUser")
 			Expect(distanceKmToUser).To(BeANum())
 			Expect(distanceKmToUser.NumValue()).To(Equal(42.195))

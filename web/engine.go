@@ -1,6 +1,7 @@
 package web
 
 import (
+	"net/url"
 	"os"
 	"strings"
 
@@ -12,7 +13,11 @@ func GetMainEngine(ol officeLocatorInterface) *gin.Engine {
 	router := gin.Default()
 	addCORSIfEnabled(router)
 
-	lh := locationHandler{locator: ol}
+	lh := locationHandler{
+		locator:       ol,
+		thoughtbotURL: thoughtbotURL(),
+	}
+
 	v1 := router.Group("/v1")
 	{
 		v1.GET("/nearest", lh.handleNearest)
@@ -31,4 +36,14 @@ func addCORSIfEnabled(router *gin.Engine) {
 	config := cors.DefaultConfig()
 	config.AllowOrigins = origins
 	router.Use(cors.New(config))
+}
+
+func thoughtbotURL() url.URL {
+	rawURL := os.Getenv("THOUGHTBOT_URL")
+	if len(rawURL) == 0 {
+		panic("Expected THOUGHTBOT_URL env variable required")
+	}
+
+	u, _ := url.Parse(rawURL)
+	return *u
 }
