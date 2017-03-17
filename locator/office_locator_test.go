@@ -36,9 +36,10 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 		bigBenLong := -0.116773
 		fakeIpResolver.ResolveCityReturns(bigBenLat, bigBenLong, nil)
 
-		slug, err := locator.Nearest("1.1.1.1")
+		slug, distanceKm, err := locator.Nearest("1.1.1.1")
 		Expect(err).ToNot(HaveOccurred())
 		Expect(slug).To(Equal("london"))
+		Expect(distanceKm).To(BeNumerically("~", 2.4, 0.2))
 	})
 
 	It("returns the New York office when you are near Statue of Liberty", func() {
@@ -46,9 +47,10 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 		statueLibertyLong := -74.0445
 		fakeIpResolver.ResolveCityReturns(statueLibertyLat, statueLibertyLong, nil)
 
-		slug, err := locator.Nearest("9.9.9.9")
+		slug, distanceKm, err := locator.Nearest("9.9.9.9")
 		Expect(err).ToNot(HaveOccurred())
 		Expect(slug).To(Equal("new-york"))
+		Expect(distanceKm).To(BeNumerically("~", 8.5, 0.2))
 	})
 
 	Context("resolving the IP address fails", func() {
@@ -56,7 +58,7 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 			expectedError := fmt.Errorf("Oh no")
 			fakeIpResolver.ResolveCityReturns(0.0, 0.0, expectedError)
 
-			_, err := locator.Nearest("")
+			_, _, err := locator.Nearest("")
 			Expect(err).To(MatchError(expectedError))
 		})
 	})

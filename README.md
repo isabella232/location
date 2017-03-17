@@ -6,7 +6,18 @@ Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://tho
 
 ## Endpoints
 
-- `/v1/nearest` returns the slug of the nearest thoughtbot office based on your IP
+### `/v1/nearest`
+
+Returns information about the nearest thoughtbot office based on your IP:
+
+```json
+{
+  "meta": {
+    "distanceKmToUser": 1.1977565711120122
+  },
+  "slug": "london"
+}
+```
 
 ## Developing
 
@@ -22,3 +33,6 @@ Live service: [https://thoughtbot-location.herokuapp.com/v1/nearest](https://tho
 Finding the nearest city to the user (based on the user's IP address) uses the
 free [GeoLite2 City database](http://dev.maxmind.com/geoip/geoip2/geolite2/).
 This data is updated monthly.
+
+The data does not include street-address level IP mappings, the mapping is only
+to the nearest city, which is adequate to locate the nearest office.

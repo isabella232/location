@@ -4,20 +4,21 @@ package webfakes
 import "sync"
 
 type FakeOfficeLocatorInterface struct {
-	NearestStub        func(ipAddress string) (slug string, err error)
+	NearestStub        func(ipAddress string) (slug string, distanceKm float64, err error)
 	nearestMutex       sync.RWMutex
 	nearestArgsForCall []struct {
 		ipAddress string
 	}
 	nearestReturns struct {
 		result1 string
-		result2 error
+		result2 float64
+		result3 error
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeOfficeLocatorInterface) Nearest(ipAddress string) (slug string, err error) {
+func (fake *FakeOfficeLocatorInterface) Nearest(ipAddress string) (slug string, distanceKm float64, err error) {
 	fake.nearestMutex.Lock()
 	fake.nearestArgsForCall = append(fake.nearestArgsForCall, struct {
 		ipAddress string
@@ -27,7 +28,7 @@ func (fake *FakeOfficeLocatorInterface) Nearest(ipAddress string) (slug string, 
 	if fake.NearestStub != nil {
 		return fake.NearestStub(ipAddress)
 	}
-	return fake.nearestReturns.result1, fake.nearestReturns.result2
+	return fake.nearestReturns.result1, fake.nearestReturns.result2, fake.nearestReturns.result3
 }
 
 func (fake *FakeOfficeLocatorInterface) NearestCallCount() int {
@@ -42,12 +43,13 @@ func (fake *FakeOfficeLocatorInterface) NearestArgsForCall(i int) string {
 	return fake.nearestArgsForCall[i].ipAddress
 }
 
-func (fake *FakeOfficeLocatorInterface) NearestReturns(result1 string, result2 error) {
+func (fake *FakeOfficeLocatorInterface) NearestReturns(result1 string, result2 float64, result3 error) {
 	fake.NearestStub = nil
 	fake.nearestReturns = struct {
 		result1 string
-		result2 error
-	}{result1, result2}
+		result2 float64
+		result3 error
+	}{result1, result2, result3}
 }
 
 func (fake *FakeOfficeLocatorInterface) Invocations() map[string][][]interface{} {
