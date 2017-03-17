@@ -19,6 +19,7 @@ var _ = Describe("OfficeRepo", func() {
 			Expect(offices).To(HaveLen(7))
 
 			Expect(offices[0].Slug).To(Equal("austin"))
+			Expect(offices[0].Name).To(Equal("Austin"))
 			Expect(offices[0].Lat).To(Equal(30.268592))
 			Expect(offices[0].Long).To(Equal(-97.743192))
 		})

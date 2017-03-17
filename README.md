@@ -15,6 +15,7 @@ Returns information about the nearest thoughtbot office based on your IP:
   "meta": {
     "distanceKmToUser": 1.1977565711120122
   },
+  "name": "London",
   "slug": "london"
 }
 ```

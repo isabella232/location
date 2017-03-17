@@ -12,10 +12,10 @@ type ipResolverInterface interface {
 	ResolveCity(ip string) (lat, long float64, err error)
 }
 
-func (l OfficeLocator) Nearest(ipAddress string) (string, float64, error) {
+func (l OfficeLocator) Nearest(ipAddress string) (Office, float64, error) {
 	userLat, userLong, err := l.IPResolver.ResolveCity(ipAddress)
 	if err != nil {
-		return "", 0.0, err
+		return Office{}, 0.0, err
 	}
 
 	nearestDistance := math.MaxFloat64
@@ -28,7 +28,7 @@ func (l OfficeLocator) Nearest(ipAddress string) (string, float64, error) {
 			nearestOffice = o
 		}
 	}
-	return nearestOffice.Slug, nearestDistance, nil
+	return nearestOffice, nearestDistance, nil
 }
 
 // https://github.com/njj/go-haversine/blob/master/haversine.go

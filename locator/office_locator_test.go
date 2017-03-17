@@ -12,16 +12,17 @@ import (
 
 var _ = Describe("OfficeLocator#Nearest", func() {
 	var (
+		newYorkOffice  Office
+		londonOffice   Office
 		offices        []Office
 		fakeIpResolver *locatorfakes.FakeIpResolverInterface
 		locator        OfficeLocator
 	)
 
 	BeforeEach(func() {
-		offices = []Office{
-			Office{Slug: "new-york", Lat: 40.752547, Long: -73.987005},
-			Office{Slug: "london", Lat: 51.519741, Long: -0.099063},
-		}
+		newYorkOffice = Office{Slug: "new-york", Lat: 40.752547, Long: -73.987005}
+		londonOffice = Office{Slug: "london", Lat: 51.519741, Long: -0.099063}
+		offices = []Office{newYorkOffice, londonOffice}
 
 		fakeIpResolver = &locatorfakes.FakeIpResolverInterface{}
 
@@ -36,9 +37,9 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 		bigBenLong := -0.116773
 		fakeIpResolver.ResolveCityReturns(bigBenLat, bigBenLong, nil)
 
-		slug, distanceKm, err := locator.Nearest("1.1.1.1")
+		locatedOffice, distanceKm, err := locator.Nearest("1.1.1.1")
 		Expect(err).ToNot(HaveOccurred())
-		Expect(slug).To(Equal("london"))
+		Expect(locatedOffice).To(Equal(londonOffice))
 		Expect(distanceKm).To(BeNumerically("~", 2.4, 0.2))
 	})
 
@@ -47,9 +48,9 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 		statueLibertyLong := -74.0445
 		fakeIpResolver.ResolveCityReturns(statueLibertyLat, statueLibertyLong, nil)
 
-		slug, distanceKm, err := locator.Nearest("9.9.9.9")
+		locatedOffice, distanceKm, err := locator.Nearest("9.9.9.9")
 		Expect(err).ToNot(HaveOccurred())
-		Expect(slug).To(Equal("new-york"))
+		Expect(locatedOffice).To(Equal(newYorkOffice))
 		Expect(distanceKm).To(BeNumerically("~", 8.5, 0.2))
 	})
 

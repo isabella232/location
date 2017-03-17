@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/thoughtbot/location/locator"
 	. "github.com/thoughtbot/location/web"
 	"github.com/thoughtbot/location/web/webfakes"
 	"github.com/totherme/nosj"
@@ -31,8 +32,8 @@ var _ = Describe("Web engine", func() {
 	})
 
 	Describe("/v1/nearest", func() {
-		It("returns the nearest thoughtbot office", func() {
-			fakeOfficeLocator.NearestReturns("outer-mongolia", 42.195, nil)
+		It("passes the client IP to the locator", func() {
+			fakeOfficeLocator.NearestReturns(locator.Office{}, 0.0, nil)
 
 			clientIP := "127.2.3.4"
 			request.Header.Set("X-Forwarded-For", clientIP)
@@ -41,6 +42,19 @@ var _ = Describe("Web engine", func() {
 
 			Expect(fakeOfficeLocator.NearestCallCount()).To(Equal(1))
 			Expect(fakeOfficeLocator.NearestArgsForCall(0)).To(Equal(clientIP))
+		})
+
+		It("returns the nearest thoughtbot office", func() {
+			o := locator.Office{
+				Name: "Outer Mongolia",
+				Slug: "outer-mongolia",
+			}
+			fakeOfficeLocator.NearestReturns(o, 42.195, nil)
+
+			clientIP := "127.2.3.4"
+			request.Header.Set("X-Forwarded-For", clientIP)
+
+			engine.ServeHTTP(recorder, request)
 
 			Expect(recorder.Result().StatusCode).To(Equal(http.StatusOK))
 
@@ -52,6 +66,10 @@ var _ = Describe("Web engine", func() {
 			Expect(slug).To(BeAString())
 			Expect(slug.StringValue()).To(Equal("outer-mongolia"))
 
+			name, _ := j.GetByPointer("/name")
+			Expect(name).To(BeAString())
+			Expect(name.StringValue()).To(Equal("Outer Mongolia"))
+
 			distanceKmToUser, _ := j.GetByPointer("/meta/distanceKmToUser")
 			Expect(distanceKmToUser).To(BeANum())
 			Expect(distanceKmToUser.NumValue()).To(Equal(42.195))
@@ -60,7 +78,7 @@ var _ = Describe("Web engine", func() {
 		Context("office locator returns an error", func() {
 			It("responds 404", func() {
 				expectedError := fmt.Errorf("Boom")
-				fakeOfficeLocator.NearestReturns("", 0.0, expectedError)
+				fakeOfficeLocator.NearestReturns(locator.Office{}, 0.0, expectedError)
 
 				engine.ServeHTTP(recorder, request)
 
