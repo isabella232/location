@@ -1,6 +1,7 @@
 package web
 
 import (
+	"log"
 	"net/http"
 	"net/url"
 
@@ -20,7 +21,8 @@ type locationHandler struct {
 }
 
 func (h *locationHandler) handleNearest(c *gin.Context) {
-	o, distanceKm, err := h.locator.Nearest(c.ClientIP())
+	clientIP := c.ClientIP()
+	o, distanceKm, err := h.locator.Nearest(clientIP)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err.Error(),
@@ -29,6 +31,13 @@ func (h *locationHandler) handleNearest(c *gin.Context) {
 	}
 
 	officeURL := o.URL(h.thoughtbotURL)
+
+	log.Printf(
+		"Nearest Offce: Matched %s office (distance %f) for IP %s",
+		o.Name,
+		distanceKm,
+		clientIP,
+	)
 
 	c.JSON(http.StatusOK, gin.H{
 		"slug": o.Slug,
