@@ -17,7 +17,7 @@ func main() {
 	}
 	defer db.Close()
 
-	offices, err := locator.OfficeRepo{}.LoadOffices("data/offices.yaml")
+	offices, err := locator.LoadOffices("data/offices.yaml")
 	if err != nil {
 		fmt.Println("Unable to read offices YAML")
 		os.Exit(1)

@@ -7,10 +7,8 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-type OfficeRepo struct {
-}
-
-func (OfficeRepo) LoadOffices(path string) ([]Office, error) {
+// LoadOffices opens yml file at specified path, loads content, and returns offices
+func LoadOffices(path string) ([]Office, error) {
 	offices := []Office{}
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
