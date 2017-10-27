@@ -21,8 +21,8 @@ var _ = Describe("IpResolver#ResolveCity", func() {
 		long, lat, err := resolver.ResolveCity("37.157.32.218")
 		Expect(err).ToNot(HaveOccurred())
 
-		Expect(long).To(Equal(51.5092))
-		Expect(lat).To(Equal(-0.0955))
+		Expect(long).To(Equal(51.6667))
+		Expect(lat).To(Equal(-0.0667))
 	})
 
 	Context("invalid IP", func() {
