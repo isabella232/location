@@ -2,14 +2,23 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/hashicorp/logutils"
 	geoip2 "github.com/oschwald/geoip2-golang"
 	"github.com/thoughtbot/location/locator"
 	"github.com/thoughtbot/location/web"
 )
 
 func main() {
+	filter := &logutils.LevelFilter{
+		Levels:   []logutils.LogLevel{"DEBUG", "WARN", "ERROR"},
+		MinLevel: logutils.LogLevel("WARN"),
+		Writer:   os.Stderr,
+	}
+	log.SetOutput(filter)
+
 	db, err := geoip2.Open("data/GeoLite2-City.mmdb")
 	if err != nil {
 		fmt.Println("Unable to read GeoLite DB")

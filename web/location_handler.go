@@ -6,7 +6,6 @@ import (
 	"net/url"
 
 	"github.com/thoughtbot/location/locator"
-
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
@@ -33,7 +32,7 @@ func (h *locationHandler) handleNearest(c *gin.Context) {
 	officeURL := o.URL(h.thoughtbotURL)
 
 	log.Printf(
-		"Nearest Offce: Matched %s office (distance %f) for IP %s",
+		"[DEBUG] Nearest Office: Matched %s office (distance %f) for IP %s",
 		o.Name,
 		distanceKm,
 		clientIP,
