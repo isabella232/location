@@ -20,7 +20,7 @@ var _ = Describe("OfficeLocator#Nearest", func() {
 	)
 
 	BeforeEach(func() {
-		newYorkOffice = Office{Slug: "new-york", Lat: 40.752547, Long: -73.987005}
+		newYorkOffice = Office{Slug: "new-york-city", Lat: 40.752547, Long: -73.987005}
 		londonOffice = Office{Slug: "london", Lat: 51.519741, Long: -0.099063}
 		offices = []Office{newYorkOffice, londonOffice}
 
